@@ -1,31 +1,46 @@
 pipeline {
-  environment {
-    registry = "anthonyto01/cw2"
-    registryCredential = 'dockerhub'
-    dockerImage = 'hub.docker.com/repository/docker/ato204/cw2'
-  }
-  agent any
+
+environment{
+dockerimage = ""
+}
+
+    agent any
+
   stages {
-    stage('Cloning Git') {
+
+    stage('Checkout Git') {
       steps {
-        git 'https://github.com/anthonyto01/cw2'
+        git url:'https://github.com/anthonyto01/cw2.git'
       }
     }
-    stage('Building image') {
-      steps{
-        script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+    
+      stage("Build Docker Image") {
+            steps {
+                script {
+                    myapp = docker.build("ato204/cw2:${env.BUILD_ID}")
+                }
+            }
+        }
+    
+      stage("Push image") {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                            myapp.push("latest")
+                            myapp.push("${env.BUILD_ID}")
+                    }
+                }
+            }
+        }
+
+    
+    stage('Deploy App') {
+      steps {
+        sh 'docker run --detach --publish 80:80 --name cw2 ato204/cw2'
         }
       }
     }
-    stage('Deploy Image') {
-      steps{
-        script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push()
-          }
-        }
-      }
-    }
+
   }
+
 }
