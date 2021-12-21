@@ -10,7 +10,7 @@ dockerimage = ""
 
     stage('Checkout Git') {
       steps {
-        git url:'https://github.com/anthonyto01/cw2.git'
+        checkout scm
       }
     }
     
