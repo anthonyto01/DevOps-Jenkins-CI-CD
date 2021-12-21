@@ -22,16 +22,11 @@ dockerimage = ""
                 }
             }
         }
-     stage('Login to Docker'){
-	steps{
-		sh 'docker login -u ato204 --password 1369c73d-2700-4fc2-9454-f0718e2b7c69
-		}
-	}
 	
       stage("Push Docker Image") {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                    docker.withRegistry('https://registry.hub.docker.com', '1369c73d-2700-4fc2-9454-f0718e2b7c69') {
                             dockerimage.push("latest")
                             dockerimage.push("${env.BUILD_ID}")
                     }
