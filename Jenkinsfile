@@ -22,7 +22,12 @@ dockerimage = ""
                 }
             }
         }
-    
+     stage('Login to Docker'){
+	steps{
+		sh 'docker login -u ato204 --password 1369c73d-2700-4fc2-9454-f0718e2b7c69
+		}
+	}
+	
       stage("Push Docker Image") {
             steps {
                 script {
