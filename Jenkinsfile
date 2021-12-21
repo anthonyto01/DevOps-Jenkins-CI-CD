@@ -17,7 +17,7 @@ dockerimage = ""
       stage("Build Docker Image") {
             steps {
                 script {
-                    myapp = docker.build("ato204/cw2")
+                    dockerimage = docker.build("ato204/cw2")
                 }
             }
         }
@@ -26,8 +26,8 @@ dockerimage = ""
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                            myapp.push("latest")
-                            myapp.push("${env.BUILD_ID}")
+                            dockerimage.push("latest")
+                            dockerimage.push("${env.BUILD_ID}")
                     }
                 }
             }
