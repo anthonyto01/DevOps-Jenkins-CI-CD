@@ -17,7 +17,7 @@ dockerimage = ""
       stage("Build Docker Image") {
             steps {
                 script {
-                    myapp = docker.build("ato204/cw2:${env.BUILD_ID}")
+                    myapp = docker.build("ato204/cw2")
                 }
             }
         }
@@ -34,7 +34,7 @@ dockerimage = ""
         }
 
     
-    stage('Deploy App') {
+    stage('Deploy Application') {
       steps {
         sh 'docker run --detach --publish 80:80 --name cw2 ato204/cw2'
         }
