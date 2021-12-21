@@ -1,0 +1,38 @@
+---
+
+- name: A playbook to install Minikube
+  hosts: localhost
+  user: ubuntu
+
+  vars:
+    myPath: /home/ubuntu/cw2
+
+  tasks:
+
+  - name: 1. Get Minikube URL
+    shell:
+      cmd: curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+
+  - name: 2. Minikube Permissions
+    shell:
+      cmd: chmod +x minikube
+
+  - name: 3. Move minikube
+    shell:
+      cmd: sudo mv minikube /usr/local/bin/
+
+  - name: 4. Start Minikube
+    shell:
+      cmd: minikube start
+
+  - name: 5. Deploy image from DockerHub to Kubernetes
+    shell:
+     cmd: kubectl create deployment kubernetes-bootcamp --image=https:hub.docker.com/repository/docker/ato204/cw2
+
+  - name: 6. Creating a Service for application
+    shell:
+     cmd: kubectl expose deployment/kubernetes-bootcamp --type="NodePort" --port 8080 --name node-port-service
+
+  - name: 7. Scaling Deployment to 3 pods
+    shell:
+     cmd: kubectl scale deployments/kubernetes-bootcamp --replicas=3
