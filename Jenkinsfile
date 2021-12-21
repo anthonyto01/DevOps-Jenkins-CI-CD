@@ -2,7 +2,7 @@ pipeline {
   environment {
     registry = "anthonyto01/cw2"
     registryCredential = 'dockerhub'
-    dockerImage = ''
+    dockerImage = 'hub.docker.com/repository/docker/ato204/cw2'
   }
   agent any
   stages {
