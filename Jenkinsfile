@@ -25,7 +25,7 @@ dockerimage = ""
       stage("Push image") {
             steps {
                 script {
-                    docker.withRegistry('https://hub.docker.com/repository/docker/ato204/cw2', 'cw2') {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
                             myapp.push("latest")
                             myapp.push("${env.BUILD_ID}")
                     }
