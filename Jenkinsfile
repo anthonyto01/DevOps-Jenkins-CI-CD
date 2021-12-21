@@ -1,3 +1,4 @@
+
 pipeline {
 
 environment{
@@ -8,7 +9,7 @@ dockerimage = ""
 
   stages {
 
-    stage('Checkout Git') {
+    stage('Checking Git for Dockerfile') {
       steps {
         checkout scm
       }
@@ -22,7 +23,7 @@ dockerimage = ""
             }
         }
     
-      stage("Push image") {
+      stage("Push Docker Image") {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
@@ -34,7 +35,7 @@ dockerimage = ""
         }
 
     
-    stage('Deploy Application') {
+    stage('Test Container / Build Test') {
       steps {
         sh 'docker run --detach --publish 80:80 --name cw2 ato204/cw2'
         }
